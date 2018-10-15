@@ -127,7 +127,7 @@ Task("FastTests")
     
 Task("SlowTestsNet46")
     .IsDependentOn("Build")
-    .WithCriteria(!skipTests && isRunningOnWindows)
+    .WithCriteria(!skipTests)
     .Does(() =>
     {
         DotNetCoreTool(integrationTestsProjectPath, "xunit", GetTestSettingsParameters("net46"));
