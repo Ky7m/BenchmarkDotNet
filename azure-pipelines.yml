@@ -3,6 +3,8 @@
 trigger:
 - master
 
+name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+
 jobs:
 - job: Linux
   pool:
