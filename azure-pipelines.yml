@@ -12,9 +12,9 @@ jobs:
   steps:
   - bash: ./build.sh
   - task: PublishTestResults@2
-      inputs:
-        testRunner: VSTest
-        testResultsFiles: '**/*.trx'
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
 
 - job: macOS
   pool:
@@ -22,9 +22,9 @@ jobs:
   steps:
   - bash: ./build.sh
   - task: PublishTestResults@2
-      inputs:
-        testRunner: VSTest
-        testResultsFiles: '**/*.trx'
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
 
 
 - job: Windows
@@ -33,6 +33,6 @@ jobs:
   steps:
   - powershell: .\build.ps1
   - task: PublishTestResults@2
-      inputs:
-        testRunner: VSTest
-        testResultsFiles: '**/*.trx'
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
