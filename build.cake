@@ -224,7 +224,8 @@ private DotNetCoreTestSettings GetTestSettingsParameters(string tfm)
                     NoBuild = true,
 					NoRestore = true,
 					DiagnosticOutput = true,
-					Verbosity = DotNetCoreVerbosity.Minimal	
+					Verbosity = DotNetCoreVerbosity.Minimal,
+					Logger = "trx"
                 };
 }
 
