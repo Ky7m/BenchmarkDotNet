@@ -1,12 +1,17 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  batch: true
+  branches:
+    # blacklist
+    exclude:
+    - gh-pages
 
 name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
 jobs:
 - job: Linux
+  timeoutInMinutes: 0 # the maximum limit is used
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
@@ -18,6 +23,7 @@ jobs:
       testResultsFiles: '**/*.trx'
 
 - job: macOS
+  timeoutInMinutes: 0 # the maximum limit is used
   pool:
     vmImage: 'xcode9-macos10.13'
   steps:
@@ -30,6 +36,7 @@ jobs:
 
 
 - job: Windows
+  timeoutInMinutes: 0 # the maximum limit is used
   pool:
     vmImage: 'vs2017-win2016'
   steps:
