@@ -121,13 +121,15 @@ namespace BenchmarkDotNet.Tests
         {
             var fakeDotnetCliPath = typeof(object).Assembly.Location;
             var fakeCoreRunPath = typeof(ConfigParserTests).Assembly.Location;
-            var config = ConfigParser.Parse(new[] { "--job=Dry", "--coreRun", fakeCoreRunPath, "--cli", fakeDotnetCliPath }, new OutputLogger(Output)).config;
+            var fakeRestorePackages = Path.GetTempPath();
+            var config = ConfigParser.Parse(new[] { "--job=Dry", "--coreRun", fakeCoreRunPath, "--cli", fakeDotnetCliPath, "--packages", fakeRestorePackages }, new OutputLogger(Output)).config;
 
             Assert.Single(config.GetJobs());
             CoreRunToolchain toolchain = config.GetJobs().Single().GetToolchain() as CoreRunToolchain;
             Assert.NotNull(toolchain);
             Assert.Equal(fakeCoreRunPath, toolchain.SourceCoreRun.FullName);
             Assert.Equal(fakeDotnetCliPath, toolchain.CustomDotNetCliPath.FullName);
+            Assert.Equal(fakeRestorePackages, toolchain.RestorePath.FullName);
         }
         
         [Fact]
@@ -159,7 +161,7 @@ namespace BenchmarkDotNet.Tests
             Assert.Single(config.GetJobs());
             CoreRtToolchain toolchain = config.GetJobs().Single().GetToolchain() as CoreRtToolchain;
             Assert.NotNull(toolchain);
-            Assert.Equal(fakeCoreRtPath.FullName, ((Publisher)toolchain.Builder).IlcPath);
+            Assert.Equal(fakeCoreRtPath.FullName, toolchain.IlcPath);
         }
         
         [Theory]
@@ -177,6 +179,18 @@ namespace BenchmarkDotNet.Tests
             Assert.NotNull(toolchain);
             Assert.Equal(tfm, ((DotNetCliGenerator)toolchain.Generator).TargetFrameworkMoniker);
             Assert.Equal(fakeDotnetCliPath, toolchain.CustomDotNetCliPath);
+        }
+        
+        [Fact]
+        public void PackagesPathParsedCorrectly()
+        {
+            var fakeRestoreDirectory = new FileInfo(typeof(object).Assembly.Location).Directory.FullName;
+            var config = ConfigParser.Parse(new[] { "-r", "netcoreapp3.0", "--packages", fakeRestoreDirectory }, new OutputLogger(Output)).config;
+
+            Assert.Single(config.GetJobs());
+            CsProjCoreToolchain toolchain = config.GetJobs().Single().GetToolchain() as CsProjCoreToolchain;
+            Assert.NotNull(toolchain);
+            Assert.Equal(fakeRestoreDirectory, ((DotNetCliGenerator)toolchain.Generator).PackagesPath);
         }
         
         [Theory]
@@ -197,7 +211,7 @@ namespace BenchmarkDotNet.Tests
         }
         
         [Fact]
-        public void CanCompreFewDifferentRuntimes()
+        public void CanCompareFewDifferentRuntimes()
         {
             var config = ConfigParser.Parse(new[] { "--runtimes", "net46", "MONO", "netcoreapp3.0", "CoreRT"}, new OutputLogger(Output)).config;
 
@@ -215,6 +229,19 @@ namespace BenchmarkDotNet.Tests
             Assert.Equal(2, config.GetHardwareCounters().Count());
             Assert.Single(config.GetHardwareCounters().Where(counter => counter == HardwareCounter.CacheMisses));
             Assert.Single(config.GetHardwareCounters().Where(counter => counter == HardwareCounter.InstructionRetired));
+        }
+        
+        [Fact]
+        public void CanParseDisassemblerWithCustomRecursiveDepth()
+        {
+            const int depth = 123;
+            
+            var config = ConfigParser.Parse(new[] { "--disasm", "--disasmDepth", depth.ToString()}, new OutputLogger(Output)).config;
+
+            var diagnoser = config.GetDiagnosers().OfType<DisassemblyDiagnoser>().Single();
+            
+            Assert.Equal(depth, diagnoser.Config.RecursiveDepth);
+            Assert.True(diagnoser.Config.PrintPrologAndEpilog); // we want this option to be enabled by default for command line users
         }
 
         [Fact]

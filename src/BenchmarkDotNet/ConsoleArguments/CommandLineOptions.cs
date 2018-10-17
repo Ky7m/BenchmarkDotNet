@@ -71,6 +71,9 @@ namespace BenchmarkDotNet.ConsoleArguments
         
         [Option("cli", Required = false, HelpText = "Path to dotnet cli (optional).")]
         public FileInfo CliPath { get; set; }
+        
+        [Option("packages", Required = false, HelpText = "The directory to restore packages to (optional).")]
+        public DirectoryInfo RestorePath { get; set; }
 
         [Option("coreRun", Required = false, HelpText = "Path to CoreRun (optional).")]
         public FileInfo CoreRunPath { get; set; }
@@ -125,6 +128,9 @@ namespace BenchmarkDotNet.ConsoleArguments
 
         [Option("list", Required = false, Default = ListBenchmarkCaseMode.Disable, HelpText = "Prints all of the available benchmark names. Flat/Tree")]
         public ListBenchmarkCaseMode ListBenchmarkCaseMode { get; set; }
+        
+        [Option("disasmDepth", Required = false, Default = 1, HelpText = "Sets the recursive depth for the disassembler.")]
+        public int DisassemblerRecursiveDepth { get; set; }
 
         [Usage(ApplicationAlias = "")]
         [PublicAPI]
