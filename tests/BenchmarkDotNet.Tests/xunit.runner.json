@@ -1,4 +1,5 @@
 ﻿{
   "shadowCopy": false,
-  "methodDisplay": "method"
+  "methodDisplay": "method",
+  "parallelizeTestCollections": false
 }
