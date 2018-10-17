@@ -225,7 +225,8 @@ private DotNetCoreTestSettings GetTestSettingsParameters(string tfm)
 					NoRestore = true,
 					DiagnosticOutput = true,
 					Verbosity = DotNetCoreVerbosity.Minimal,
-					Logger = "trx"
+					Logger = "trx",
+					ArgumentCustomization = args => args.Append("-nodereuse:false --blame")
                 };
 }
 
