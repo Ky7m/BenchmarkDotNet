@@ -25,7 +25,7 @@ jobs:
 - job: macOS
   timeoutInMinutes: 120
   pool:
-    vmImage: 'xcode9-macos10.13'
+    vmImage: 'macOS-10.13'
   steps:
   - bash: ./build.sh
     continueOnError: true
