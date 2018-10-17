@@ -223,11 +223,8 @@ private DotNetCoreTestSettings GetTestSettingsParameters(string tfm)
 					Framework = tfm,
                     NoBuild = true,
 					NoRestore = true,
-					DiagnosticOutput = true,
-					Verbosity = DotNetCoreVerbosity.Minimal,
-					Logger = "trx",
-					ArgumentCustomization = args => args.Append("-nodereuse:false --blame")
-                };
+					Logger = "trx"
+				}; 
 }
 
 private void RunDocfx(string args)
