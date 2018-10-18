@@ -115,13 +115,13 @@ Task("FastTests")
     .Does(() =>
     {
 		string[] targetVersions = IsRunningOnWindows() ?
-                new []{"net46", "netcoreapp2.1"}	
-                :	
+                new []{"net46", "netcoreapp2.1"}
+                :
                 new []{"netcoreapp2.1"};	
 
-        foreach(var version in targetVersions)	
-        {	
-            DotNetCoreTest("./tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj", GetTestSettingsParameters(version));	
+        foreach(var version in targetVersions)
+        {
+            DotNetCoreTest("./tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj", GetTestSettingsParameters(version));
         }
     });
     
@@ -134,12 +134,12 @@ Task("SlowTestsNet46")
     }); 
 
 Task("SlowTestsNetCore2")
-.IsDependentOn("Build")
-.WithCriteria(!skipTests)
-.Does(() =>
-{
-	DotNetCoreTest(integrationTestsProjectPath, GetTestSettingsParameters("netcoreapp2.1"));
-});          
+	.IsDependentOn("Build")
+	.WithCriteria(!skipTests)
+	.Does(() =>
+	{
+		DotNetCoreTest(integrationTestsProjectPath, GetTestSettingsParameters("netcoreapp2.1"));
+	});          
 
 Task("Pack")
     .IsDependentOn("Build")

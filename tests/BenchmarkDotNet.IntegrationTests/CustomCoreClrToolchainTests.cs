@@ -18,15 +18,15 @@ namespace BenchmarkDotNet.IntegrationTests
                 .With(Job.Dry.With(
                     CustomCoreClrToolchain.CreateBuilder()
                         .UseCoreClrDefault()
-                        .UseCoreFxNuGet("4.5.0-servicing-26703-08")
+                        .UseCoreFxNuGet("4.5.0-rtm-26531-02")
                         .ToToolchain()));
 
-            CanExecute<Check_4_6_26703_08_CoreFxVersion>(config);
+            CanExecute<Check_4_6_26531_02_CoreFxVersion>(config);
         }
 
-        public class Check_4_6_26703_08_CoreFxVersion : CheckCoreClrAndCoreFxVersions
+        public class Check_4_6_26531_02_CoreFxVersion : CheckCoreClrAndCoreFxVersions
         {
-            public Check_4_6_26703_08_CoreFxVersion() : base(expectedCoreFxVersion: "4.6.26703.08") { }
+            public Check_4_6_26531_02_CoreFxVersion() : base(expectedCoreFxVersion: "4.6.26531.02") { }
         }
 
         [NotAzurePipelinesFact]
@@ -53,16 +53,16 @@ namespace BenchmarkDotNet.IntegrationTests
             var config = ManualConfig.CreateEmpty()
                 .With(Job.Dry.With(
                     CustomCoreClrToolchain.CreateBuilder()
-                        .UseCoreFxNuGet("4.5.0-servicing-26703-08")
+                        .UseCoreFxNuGet("4.5.0-rtm-26531-02")
                         .UseCoreClrNuGet("2.1.0-rtm-26528-02")
                         .ToToolchain()));
 
-            CanExecute<Check_4_6_26528_02_CoreClrAnd_4_6_26703_08_CoreFxVersions>(config);
+            CanExecute<Check_4_6_6528_02_CoreClrAnd_4_6_26531_02_CoreFxVersions>(config);
         }
 
-        public class Check_4_6_26528_02_CoreClrAnd_4_6_26703_08_CoreFxVersions : CheckCoreClrAndCoreFxVersions
+        public class Check_4_6_6528_02_CoreClrAnd_4_6_26531_02_CoreFxVersions : CheckCoreClrAndCoreFxVersions
         {
-            public Check_4_6_26528_02_CoreClrAnd_4_6_26703_08_CoreFxVersions() : base(expectedCoreClrVersion: "4.6.26528.02", expectedCoreFxVersion: "4.6.26703.08") { }
+            public Check_4_6_6528_02_CoreClrAnd_4_6_26531_02_CoreFxVersions() : base(expectedCoreClrVersion: "4.6.26528.02", expectedCoreFxVersion: "4.6.26531.02") { }
         }
     }
 }
