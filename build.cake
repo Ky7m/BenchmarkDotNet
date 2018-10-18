@@ -87,22 +87,14 @@ Task("Clean")
         CleanDirectory(artifactsDirectory);
     });
 
-Task("Restore")
-    .IsDependentOn("Clean")
-    .Does(() =>
-    {
-        DotNetCoreRestore(solutionFile);
-    });
-
 Task("Build")
-    .IsDependentOn("Restore")
+    .IsDependentOn("Clean")
     .Does(() =>
     {
         var path = MakeAbsolute(new DirectoryPath(solutionFile));
         DotNetCoreBuild(path.FullPath, new DotNetCoreBuildSettings
         {
             Configuration = configuration,
-            NoRestore = true,
             DiagnosticOutput = true,
             MSBuildSettings = msBuildSettings,
             Verbosity = DotNetCoreVerbosity.Minimal
@@ -205,7 +197,6 @@ Task("DocFX_Serve")
 
 Task("Default")
     .IsDependentOn("Clean")
-    .IsDependentOn("Restore")
     .IsDependentOn("Build")
     .IsDependentOn("FastTests")
     .IsDependentOn("SlowTestsNetCore2")
