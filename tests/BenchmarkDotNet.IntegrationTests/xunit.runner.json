@@ -3,6 +3,5 @@
   "methodDisplay": "method",
   "diagnosticMessages": true,
   "longRunningTestSeconds": 1800,
-  "maxParallelThreads": 1,
   "parallelizeTestCollections": false
 }
