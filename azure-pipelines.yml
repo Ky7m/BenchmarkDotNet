@@ -21,6 +21,7 @@ jobs:
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
+      testRunTitle: 'Linux'
   - script: 'echo 1>&2'
     failOnStderr: true
     displayName: 'If above is partially succeeded, then fail'
@@ -37,6 +38,7 @@ jobs:
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
+      testRunTitle: 'macOS'
   - script: 'echo 1>&2'
     failOnStderr: true
     displayName: 'If above is partially succeeded, then fail'
@@ -54,8 +56,7 @@ jobs:
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
-      testRunTitle: 'Run Tests on Windows'
-      buildPlatform: 'Windows'
+      testRunTitle: 'Windows'
   - script: 'echo 1>&2'
     failOnStderr: true
     displayName: 'If above is partially succeeded, then fail'

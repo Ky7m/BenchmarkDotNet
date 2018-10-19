@@ -186,7 +186,7 @@ namespace BenchmarkDotNet.Tests.Running
             
             var benchmarkCase = info.BenchmarksCases.Single();
             
-            Assert.Equal(11, benchmarkCase.Job.Run.InvocationCount);
+            Assert.Equal(1, benchmarkCase.Job.Run.InvocationCount);
             Assert.Equal(1, benchmarkCase.Job.Run.UnrollFactor);
             Assert.Equal(OutlierMode.None, benchmarkCase.Job.Accuracy.OutlierMode);
             Assert.False(benchmarkCase.Job.Meta.IsMutator);
