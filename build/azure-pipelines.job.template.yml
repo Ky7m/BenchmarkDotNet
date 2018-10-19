@@ -1,0 +1,32 @@
+trigger:
+  batch: true
+  branches:
+    # blacklist
+    exclude:
+    - gh-pages
+
+name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+
+parameters:
+  name: ''
+  vmImage: ''
+  scriptFileName: ''
+  timeoutInMinutes: 120
+
+jobs:
+- job: ${{ parameters.name }}
+  timeoutInMinutes: ${{ parameters.timeoutInMinutes }}
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - bash: ${{ parameters.scriptFileName }}
+    continueOnError: true
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+      testRunTitle: ${{ parameters.name }}
+  - script: 'echo 1>&2'
+    failOnStderr: true
+    displayName: 'If above is partially succeeded, then fail'
+    condition: eq(variables['Agent.JobStatus'], 'SucceededWithIssues')
