@@ -54,6 +54,8 @@ jobs:
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
+      testRunTitle: 'Run Tests on Windows'
+      buildPlatform: 'Windows'
   - script: 'echo 1>&2'
     failOnStderr: true
     displayName: 'If above is partially succeeded, then fail'
