@@ -1,12 +1,3 @@
-trigger:
-  batch: true
-  branches:
-    # blacklist
-    exclude:
-    - gh-pages
-
-name: $(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
-
 parameters:
   name: ''
   vmImage: ''
