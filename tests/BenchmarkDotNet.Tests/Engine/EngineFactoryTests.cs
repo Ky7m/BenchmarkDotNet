@@ -6,6 +6,7 @@ using BenchmarkDotNet.Characteristics;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Tests.XUnit;
 using Xunit;
 
 namespace BenchmarkDotNet.Tests.Engine
@@ -141,7 +142,7 @@ namespace BenchmarkDotNet.Tests.Engine
             Assert.Equal(1, timesGlobalCleanupCalled);
         }
 
-        [Fact]
+        [NotAzurePipelinesFact]
         public void MediumTimeConsumingBenchmarksShouldStartPilotFrom2AndIncrementItWithEveryStep()
         {
             var unrollFactor = Job.Default.ResolveValue(RunMode.UnrollFactorCharacteristic, DefaultResolver);
