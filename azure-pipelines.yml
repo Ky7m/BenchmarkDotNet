@@ -21,6 +21,10 @@ jobs:
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
+  - script: 'echo 1>&2'
+    failOnStderr: true
+    displayName: 'If above is partially succeeded, then fail'
+    condition: eq(variables['Agent.JobStatus'], 'SucceededWithIssues')
 
 - job: macOS
   timeoutInMinutes: 120
@@ -33,6 +37,10 @@ jobs:
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
+  - script: 'echo 1>&2'
+    failOnStderr: true
+    displayName: 'If above is partially succeeded, then fail'
+    condition: eq(variables['Agent.JobStatus'], 'SucceededWithIssues')
 
 
 - job: Windows
@@ -46,3 +54,7 @@ jobs:
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
+  - script: 'echo 1>&2'
+    failOnStderr: true
+    displayName: 'If above is partially succeeded, then fail'
+    condition: eq(variables['Agent.JobStatus'], 'SucceededWithIssues')
