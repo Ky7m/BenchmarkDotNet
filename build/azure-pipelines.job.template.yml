@@ -10,8 +10,14 @@ jobs:
   pool:
     vmImage: ${{ parameters.vmImage }}
   steps:
+  # Linux or macOS
   - bash: ${{ parameters.scriptFileName }}
     continueOnError: true
+    condition: in( variables.Agent.OS, 'Linux', 'Darwin' )
+  # Windows
+  - powershell: ${{ parameters.scriptFileName }}
+    continueOnError: true
+    condition: eq( variables.Agent.OS, 'Windows_NT' )
   - task: PublishTestResults@2
     inputs:
       testRunner: VSTest
