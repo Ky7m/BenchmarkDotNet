@@ -142,7 +142,7 @@ namespace BenchmarkDotNet.Tests.Engine
             Assert.Equal(1, timesGlobalCleanupCalled);
         }
 
-        [NotAzurePipelinesFact]
+        [Fact]
         public void MediumTimeConsumingBenchmarksShouldStartPilotFrom2AndIncrementItWithEveryStep()
         {
             var unrollFactor = Job.Default.ResolveValue(RunMode.UnrollFactorCharacteristic, DefaultResolver);
