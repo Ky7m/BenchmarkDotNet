@@ -52,26 +52,26 @@ namespace BenchmarkDotNet.IntegrationTests
             { Runtime.Clr, Jit.RyuJit, Platform.X64, OkCaption },
         };
 
-        public static TheoryData<Runtime, Jit, Platform, string> DataForCore = new TheoryData<Runtime, Jit, Platform, string>
+        public static TheoryData<XunitSerializableRuntime, Jit, Platform, string> DataForCore = new TheoryData<XunitSerializableRuntime, Jit, Platform, string>
         {
-            { Runtime.Core, Jit.LegacyJit, Platform.X86, ToolchainSupportsOnlyRyuJit },
-            { Runtime.Core, Jit.LegacyJit, Platform.X64, ToolchainSupportsOnlyRyuJit },
-            { Runtime.Core, Jit.RyuJit, Platform.X64, OkCaption }
+            { new XunitSerializableRuntime(Runtime.Core), Jit.LegacyJit, Platform.X86, ToolchainSupportsOnlyRyuJit },
+            { new XunitSerializableRuntime(Runtime.Core), Jit.LegacyJit, Platform.X64, ToolchainSupportsOnlyRyuJit },
+            { new XunitSerializableRuntime(Runtime.Core), Jit.RyuJit, Platform.X64, OkCaption }
         };
 
 
         [TheoryWindowsOnly("CLR is a valid job only on Windows")]
         [MemberData(nameof(DataForWindows))]
-        public void CheckWindows(Runtime runtime, Jit jit, Platform platform, string exptectedText)
+        public void CheckWindows(Runtime runtime, Jit jit, Platform platform, string expectedText)
         {
-            Verify(runtime, jit, platform, exptectedText);
+            Verify(runtime, jit, platform, expectedText);
         }
 
         [Theory]
         [MemberData(nameof(DataForCore))]
-        public void CheckCore(Runtime runtime, Jit jit, Platform platform, string exptectedText)
+        public void CheckCore(Runtime runtime, Jit jit, Platform platform, string expectedText)
         {
-            Verify(runtime, jit, platform, exptectedText);
+            Verify(runtime, jit, platform, expectedText);
         }
 
         private void Verify(Runtime runtime, Jit jit, Platform platform, string expectedText)
