@@ -5,5 +5,5 @@
   "longRunningTestSeconds": 60,
   "parallelizeAssembly": false,
   "parallelizeTestCollections": false,
-  "maxParallelThreads": 1 
+  "maxParallelThreads": -1 
 }
