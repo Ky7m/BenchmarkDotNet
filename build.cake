@@ -61,6 +61,11 @@ var integrationTestsProjectPath = "./tests/BenchmarkDotNet.IntegrationTests/Benc
 var isRunningOnWindows = IsRunningOnWindows();
 var IsOnAppVeyorAndNotPR = AppVeyor.IsRunningOnAppVeyor && !AppVeyor.Environment.PullRequest.IsPullRequest;
 
+var targetVersions = IsRunningOnWindows() ?
+                new []{"net46", "netcoreapp2.1"}
+                :
+                new []{"netcoreapp2.1"};
+
 var msBuildSettings = new DotNetCoreMSBuildSettings
 {
     MaxCpuCount = 1
@@ -114,32 +119,31 @@ Task("FastTests")
     .WithCriteria(!skipTests)
     .Does(() =>
     {
-		string[] targetVersions = IsRunningOnWindows() ?
-                new []{"net46", "netcoreapp2.1"}
-                :
-                new []{"netcoreapp2.1"};
-
+		var testSettings = GetSharedTestSettingsParameters();
         foreach(var version in targetVersions)
         {
-            DotNetCoreTest("./tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj", GetTestSettingsParameters(version));
+			testSettings.Framework = version;
+            DotNetCoreTest("./tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj", testSettings);
         }
     });
     
-Task("SlowTestsNet46")
+Task("SlowTests")
     .IsDependentOn("Build")
-    .WithCriteria(!skipTests && isRunningOnWindows)
+    .WithCriteria(!skipTests)
     .Does(() =>
     {
-        DotNetCoreTest(integrationTestsProjectPath, GetTestSettingsParameters("net46"));
-    }); 
+		var testSettings = GetSharedTestSettingsParameters();
+        foreach(var version in targetVersions)
+        {
+			testSettings.Framework = version;
+		
+			testSettings.Filter = "Category!=IsolatedTest";
+			DotNetCoreTest(integrationTestsProjectPath, testSettings);
 
-Task("SlowTestsNetCore2")
-	.IsDependentOn("Build")
-	.WithCriteria(!skipTests)
-	.Does(() =>
-	{
-		DotNetCoreTest(integrationTestsProjectPath, GetTestSettingsParameters("netcoreapp2.1"));
-	});          
+			testSettings.Filter = "Category=IsolatedTest";
+			DotNetCoreTest(integrationTestsProjectPath, testSettings);
+        }
+    });          
 
 Task("Pack")
     .IsDependentOn("Build")
@@ -208,19 +212,17 @@ Task("Default")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
     .IsDependentOn("FastTests")
-    .IsDependentOn("SlowTestsNetCore2")
-    .IsDependentOn("SlowTestsNet46")
+    .IsDependentOn("SlowTests")
     .IsDependentOn("Pack");
 
 RunTarget(target);
 
 // HELPERS
-private DotNetCoreTestSettings GetTestSettingsParameters(string tfm)
+private DotNetCoreTestSettings GetSharedTestSettingsParameters()
 {
 	return new DotNetCoreTestSettings
                 {
                     Configuration = configuration,
-					Framework = tfm,
                     NoBuild = true,
 					NoRestore = true,
 					Logger = "trx"
