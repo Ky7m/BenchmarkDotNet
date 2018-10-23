@@ -83,7 +83,7 @@ Setup(_ =>
         msBuildSettings.WithProperty("FrameworkPathOverride", frameworkPathOverride);
     }
     
-    msBuildSettings.WithProperty("UseSharedCompilation", false);
+    msBuildSettings.WithProperty("UseSharedCompilation", "false");
 });
 
 Task("Clean")
