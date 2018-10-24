@@ -27,7 +27,6 @@ namespace BenchmarkDotNet.IntegrationTests
 
         [FactWindowsOnly("CLR is a valid job only on Windows")]
         [Trait(Constants.Category, Constants.BackwardCompatibilityCategory)]
-        [Trait(Constants.Category, Constants.IsolatedTestCategory)]
         public void SingleBenchmarkCanBeExecutedForMultipleRuntimes()
         {
             var summary = BenchmarkRunner
