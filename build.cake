@@ -140,8 +140,8 @@ Task("SlowTests")
 			testSettings.Filter = "Category!=IsolatedTest";
 			DotNetCoreTest(integrationTestsProjectPath, testSettings);
 
-			testSettings.Filter = "Category=IsolatedTest";
-			DotNetCoreTest(integrationTestsProjectPath, testSettings);
+			//testSettings.Filter = "Category=IsolatedTest";
+			//DotNetCoreTest(integrationTestsProjectPath, testSettings);
         }
     });          
 
