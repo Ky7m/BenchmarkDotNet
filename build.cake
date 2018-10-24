@@ -62,7 +62,7 @@ var isRunningOnWindows = IsRunningOnWindows();
 var IsOnAppVeyorAndNotPR = AppVeyor.IsRunningOnAppVeyor && !AppVeyor.Environment.PullRequest.IsPullRequest;
 
 var targetVersions = IsRunningOnWindows() ?
-                new []{"net46", "netcoreapp2.1"}
+                new []{"netcoreapp2.1", "net46"}
                 :
                 new []{"netcoreapp2.1"};
 
